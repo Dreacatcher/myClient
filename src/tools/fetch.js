@@ -2,31 +2,36 @@
 * @Author: lcm
 * @Date:   2017-05-27 14:36:08
  * @Last Modified by: lucm
- * @Last Modified time: 2017-09-12 11:39:59
+ * @Last Modified time: 2017-09-12 17:18:54
 */
 import axios from 'axios'
-import B from 'base'
-
+//生成MD5签名加密
+let crypto = require('crypto');
+let md5 = crypto.createHash('md5');
+var Buffer = require('buffer').Buffer;
 // ******************************* Setting ***********************************/
 let appid = 'BASMD5-LCM-520-LYL'
-let appkey = 'sasaaaaaargevbdvfcxvxdesdvsvdsvdsv'
-let siteid = '5201020'
+let appkey = 'vws3236ce4fdscsfdsecdserr3232fdsf30d835243czxc4fds'
+let siteid = '520100'
 // ******************************* Setting ***********************************/
 class Fetch {
-  packageParamBase (param) {
+  packageParamBase(param) {
     let _param = param || {}
+    let _sign = md5.update(encodeURI((Buffer(JSON.stringify(_param) + appid)) + siteid) + appkey).digest('hex');
+    // _sign = Buffer(_sign)
+    console.log(_sign)
     let _requestParam = {
       head: {
         appid: appid,
-        sign: B.encrypt(appkey, B.toMd5(B.toBase64(appid + B.toJson(_param)))),
+        sign: _sign,
         siteid: siteid,
-        version: '2.0'
+        version: '1.0'
       },
       body: param
     }
-    return B.toJson(_requestParam)
+    return _requestParam
   }
-  httpRequestPostHasUTF8 (url, data, callback) {
+  httpRequestPostHasUTF8(url, data, callback) {
     // POST
     let _data = this.dataEncode(data)
     let _requestParam = this.packageParamBase(_data)
@@ -42,7 +47,7 @@ class Fetch {
         callback(error)
       })
   }
-  httpRequestPost (url, data, callback) {
+  httpRequestPost(url, data, callback) {
     // POST
     let _data = this.dataEncode(data)
     let _requestParam = this.packageParamBase(_data)
@@ -57,7 +62,8 @@ class Fetch {
         error.rtnMsg = '发生未知异常'
         callback(error)
       })
-  }  httpRequestGet (url, data, callback) {
+  }
+  httpRequestGet(url, data, callback) {
     // GET
     data = this.dataEncode(data)
     axios
@@ -74,7 +80,7 @@ class Fetch {
       })
   }
   // ---------------XSS--------------//
-  htmlEncode (str) {
+  htmlEncode(str) {
     let s = ''
     if (str.length === 0) return ''
     // s = str.replace(/ /g, "&nbsp;");
@@ -90,7 +96,7 @@ class Fetch {
     // s = s.replace(/\n/g, "<br>");
     return s
   }
-  dataEncode (data) {
+  dataEncode(data) {
     // Encode
     let rel = data
     let source = ''

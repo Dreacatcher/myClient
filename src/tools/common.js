@@ -2,7 +2,7 @@
 * @Author: lcm
 * @Date:   2017-05-23 15:41:16
  * @Last Modified by: lucm
- * @Last Modified time: 2017-06-20 10:10:28
+ * @Last Modified time: 2017-09-12 14:52:28
 */
 import fetch from 'fetch'
 class Tool {
@@ -141,7 +141,6 @@ class Tool {
       }
     }
   }
- 
   removejscssfile (filename, filetype) {
     let targetelement = filetype == 'js'
       ? 'script'

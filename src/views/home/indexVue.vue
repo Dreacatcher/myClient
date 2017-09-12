@@ -5,11 +5,18 @@
 </template>
 
 <script>
+import fetch from 'fetch'
 export default {
   data() {
     return {
     }
-  }
+  },
+  created(){
+    let data ={}
+    fetch.httpRequestPost('http://localhost:3000/api/users/users0002',data,function(datas){
+      console.log(datas)
+    })
+  },
 }
 </script>
 
