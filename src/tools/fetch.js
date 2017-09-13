@@ -2,7 +2,7 @@
 * @Author: lcm
 * @Date:   2017-05-27 14:36:08
  * @Last Modified by: lucm
- * @Last Modified time: 2017-09-13 10:04:42
+ * @Last Modified time: 2017-09-13 10:46:38
 */
 import axios from 'axios'
 var Base64 = require('js-base64').Base64;
@@ -78,7 +78,7 @@ class Fetch {
         callback(response)
       })
   }
-  // ---------------XSS--------------//
+  // ---------------XSS和mongo注入--------------//
   htmlEncode(str) {
     let s = ''
     if (str.length === 0) return ''
@@ -90,6 +90,7 @@ class Fetch {
     s = s.replace(/>/g, '%26gt%3B')
     s = s.replace(/%3E/g, '%26gt%3B')
     s = s.replace(/%3e/g, '%26gt%3B')
+    s = s.replace(/\$/g, "&#36;");
     // s = s.replace(/\'/g, "&#39;");
     // s = s.replace(/\"/g, "&quot;");
     // s = s.replace(/\n/g, "<br>");
