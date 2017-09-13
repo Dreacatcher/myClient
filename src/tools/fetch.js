@@ -2,7 +2,7 @@
 * @Author: lcm
 * @Date:   2017-05-27 14:36:08
  * @Last Modified by: lucm
- * @Last Modified time: 2017-09-12 21:06:28
+ * @Last Modified time: 2017-09-13 09:36:17
 */
 import axios from 'axios'
 //生成MD5签名加密
@@ -19,8 +19,6 @@ class Fetch {
   packageParamBase(param) {
     let _param = param || {}
     let _sign = md5.update(encodeURI((Buffer(JSON.stringify(_param) + appid)) + siteid) + appkey).digest('hex');
-    // _sign = Buffer(_sign)
-    console.log(_sign)
     let _requestParam = {
       head: {
         appid: appid,
