@@ -6,7 +6,7 @@
       <h2>用户信息模块</h2>
       <section class="regist">
         <label for=""><input type="text" class="nameIpt" placeholder="请输入你的用户名" v-model="nameIptVal"></label>
-        <label for=""><input type="text" class="pswIpt" placeholder="请输入你的密码" v-model="pswIptVal"></label>
+        <label for=""><input type="password" class="pswIpt" placeholder="请输入你的密码" v-model="pswIptVal"></label>
         <label for=""><input type="text" class="emailIpt" placeholder="请输入你的邮箱" v-model="emailIptVal"></label>
         <button class="submit registBtn" @click="registHandler(nameIptVal,pswIptVal,emailIptVal)">提交</button>
       </section>
@@ -34,8 +34,8 @@
         <button class="submit queryMyUserBtn" @click="queryMyUserHandler(queryRequstMyUserInfo)">查询个人信息</button>
       </section>
       <section class="deleteUser">
-        <label for=""><input type="text" class="deleteUserIpt" placeholder="请输入你的邮箱或者用户名"></label>
-        <button class="submit deleteUserBtn" @click="deleteUserHandler">删除</button>
+        <label for=""><input type="text" class="deleteUserIpt" placeholder="请输入你的邮箱或者用户名" v-model="deleteUser"></label>
+        <button class="submit deleteUserBtn" @click="deleteUserHandler(deleteUser)">删除</button>
       </section>
     </div>
   </div>
@@ -50,6 +50,7 @@ export default {
       nameIptVal: '',
       pswIptVal: '',
       emailIptVal: '',
+      deleteUser: '',
       queryRequstMyUserInfo: '',
       queryAllUsersInfos: {},
       queryMyInfos: {}
@@ -77,17 +78,31 @@ export default {
         self.queryAllUsersInfos = datas.data.body.datas
       })
     },
-    queryMyUserHandler() {
+    queryMyUserHandler(_parma) {
+      let reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
       let data = {}
       let self = this
+      if(reg.test(_parma)){
+        data.email= _parma
+      }else{
+        data.name= _parma
+      }
+      
       fetch.httpRequestPost('http://localhost:3000/api/users/users0003', data, function(datas) {
         self.queryMyInfos = datas.data.body.datas
       })
     },
-    deleteUserHandler() {
+    deleteUserHandler(_str) {
+      let reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
       let data = {}
+      let self = this
+      if(reg.test(_str)){
+        data.email= _str
+      }else{
+        data.name= _str
+      }
       fetch.httpRequestPost('http://localhost:3000/api/users/users0004', data, function(datas) {
-        console.log(datas)
+        self.queryAllUsersInfos = datas.data.body.datas
       })
     }
   }
