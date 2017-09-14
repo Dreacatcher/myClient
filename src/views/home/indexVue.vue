@@ -12,15 +12,26 @@
       </section>
       <section class="queryAllUsers">
         <button class="submit queryAllUsersBtn" @click="queryAllUsersHandler">查询全部用户</button>
-      </section>
-      <section class="queryAllUsers">
-        <label for=""><input type="text" class="queryAllUsersIpt" placeholder="请输入你的邮箱或者用户名"></label>
-        <div class="queryCont">{
+        <div class="queryCont">
           <ul>
-            <li v-for=" (item,index) in queryAllUsersInfos" :key="index">{{item.name}}</li>
+            <li class="myInfo" v-for=" (item,index) in queryAllUsersInfos" :key="index">
+              <p>用户名:{{item.name}}</p>
+              <p>用户邮箱:{{item.email}}</p>
+            </li>
           </ul>
         </div>
-        <button class="submit queryMyUserBtn" @click="queryMyUserHandler">查询个人信息</button>
+      </section>
+      <section class="queryAllUsers">
+        <label for=""><input type="text" v-model="queryRequstMyUserInfo" class="queryAllUsersIpt" placeholder="请输入你的邮箱或者用户名"></label>
+        <div class="queryCont">
+          <ul>
+            <li v-for=" (item,index) in queryMyInfos" :key="index">
+              <p>用户名:{{item.name}}</p>
+              <p>用户邮箱:{{item.email}}</p>
+            </li>
+          </ul>
+        </div>
+        <button class="submit queryMyUserBtn" @click="queryMyUserHandler(queryRequstMyUserInfo)">查询个人信息</button>
       </section>
       <section class="deleteUser">
         <label for=""><input type="text" class="deleteUserIpt" placeholder="请输入你的邮箱或者用户名"></label>
@@ -39,7 +50,9 @@ export default {
       nameIptVal: '',
       pswIptVal: '',
       emailIptVal: '',
-      queryAllUsersInfos: {}
+      queryRequstMyUserInfo: '',
+      queryAllUsersInfos: {},
+      queryMyInfos: {}
     }
   },
   created() {
@@ -59,20 +72,21 @@ export default {
     },
     queryAllUsersHandler() {
       let data = {}
-      let self =this
+      let self = this
       fetch.httpRequestPost('http://localhost:3000/api/users/users0002', data, function(datas) {
-       self.queryAllUsersInfos=datas.data.body.datas
+        self.queryAllUsersInfos = datas.data.body.datas
       })
     },
     queryMyUserHandler() {
       let data = {}
-      fetch.httpRequestPost('http://localhost:3000/api/users/users0002', data, function(datas) {
-        console.log(datas)
+      let self = this
+      fetch.httpRequestPost('http://localhost:3000/api/users/users0003', data, function(datas) {
+        self.queryMyInfos = datas.data.body.datas
       })
     },
     deleteUserHandler() {
       let data = {}
-      fetch.httpRequestPost('http://localhost:3000/api/users/users0002', data, function(datas) {
+      fetch.httpRequestPost('http://localhost:3000/api/users/users0004', data, function(datas) {
         console.log(datas)
       })
     }
@@ -94,7 +108,10 @@ h2 {
 label {
   display: block;
 }
-
+.myInfo{
+  margin-bottom: 10px;
+  border:1px solid $black;
+}
 section {
   padding: 30px;
   border: 1px solid $black;
