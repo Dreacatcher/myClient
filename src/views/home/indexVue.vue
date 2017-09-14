@@ -15,7 +15,11 @@
       </section>
       <section class="queryAllUsers">
         <label for=""><input type="text" class="queryAllUsersIpt" placeholder="请输入你的邮箱或者用户名"></label>
-        <div class="queryCont"></div>
+        <div class="queryCont">{
+          <ul>
+            <li v-for=" (item,index) in queryAllUsersInfos" :key="index">{{item.name}}</li>
+          </ul>
+        </div>
         <button class="submit queryMyUserBtn" @click="queryMyUserHandler">查询个人信息</button>
       </section>
       <section class="deleteUser">
@@ -34,15 +38,16 @@ export default {
     return {
       nameIptVal: '',
       pswIptVal: '',
-      emailIptVal: ''
+      emailIptVal: '',
+      queryAllUsersInfos: {}
     }
   },
   created() {
   },
   methods: {
-    registHandler(_name,_password,_email) {
+    registHandler(_name, _password, _email) {
       let md5 = crypto.createHash('md5');
-      _password=md5.update(_password).digest('hex');
+      _password = md5.update(_password).digest('hex');
       let data = {
         name: _name,
         password: _password,
@@ -54,8 +59,9 @@ export default {
     },
     queryAllUsersHandler() {
       let data = {}
+      let self =this
       fetch.httpRequestPost('http://localhost:3000/api/users/users0002', data, function(datas) {
-        console.log(datas)
+       self.queryAllUsersInfos=datas.data.body.datas
       })
     },
     queryMyUserHandler() {
