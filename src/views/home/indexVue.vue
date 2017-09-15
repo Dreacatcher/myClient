@@ -75,7 +75,9 @@ export default {
       let data = {}
       let self = this
       fetch.httpRequestPost('http://localhost:3000/api/users/users0002', data, function(datas) {
-        self.queryAllUsersInfos = datas.data.body.datas
+        if(datas&&datas.data&&datas.data.body){
+          self.queryAllUsersInfos = datas.data.body.datas
+        }
       })
     },
     queryMyUserHandler(_parma) {
@@ -89,7 +91,9 @@ export default {
       }
       
       fetch.httpRequestPost('http://localhost:3000/api/users/users0003', data, function(datas) {
-        self.queryMyInfos = datas.data.body.datas
+        if(datas&&datas.data&&datas.data.body){
+          self.queryMyInfos = datas.data.body.datas
+        }
       })
     },
     deleteUserHandler(_str) {
@@ -102,7 +106,9 @@ export default {
         data.name= _str
       }
       fetch.httpRequestPost('http://localhost:3000/api/users/users0004', data, function(datas) {
-        self.queryAllUsersInfos = datas.data.body.datas
+        if(datas&&datas.data&&datas.data.body){
+          self.queryAllUsersInfos = datas.data.body.datas
+        }
       })
     }
   }
