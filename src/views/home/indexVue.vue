@@ -2,7 +2,6 @@
   <div id="app">
 
     <div class="usersModul">
-      <h2>基于vue+webpack的多页面开发-----主页</h2>
       <h2>用户信息模块</h2>
       <section class="regist">
         <label for=""><input type="text" class="nameIpt" placeholder="请输入你的用户名" v-model="nameIptVal"></label>
@@ -37,6 +36,20 @@
         <label for=""><input type="text" class="deleteUserIpt" placeholder="请输入你的邮箱或者用户名" v-model="deleteUser"></label>
         <button class="submit deleteUserBtn" @click="deleteUserHandler(deleteUser)">删除</button>
       </section>
+      <section class="deleteUser">
+        <h2>模拟登录模块</h2>
+        <div>
+          <label class="loginUserNameLabel" for="loginUserNameIpt">登录名</label>
+          <input type="text" id='loginUserNameIpt' class="loginUserNameIpt" placeholder="请输入你的用户名或邮箱" v-model="loginUserName">
+        </div>
+        <div>
+          <label class="loginUserPswLabel" for="loginUserPswIpt">密码</label>
+          <input type="password" id='loginUserPswIpt' class="loginUserPswIpt" placeholder="请输入你的密码" v-model="loginUserPsw">
+        </div>
+        <div>
+          <button class="submit loginUserBtn" @click="loginHandler(loginUserName,loginUserPsw)">登陆</button>
+        </div>
+      </section>
     </div>
   </div>
 </template>
@@ -51,6 +64,8 @@ export default {
       pswIptVal: '',
       emailIptVal: '',
       deleteUser: '',
+      loginUserName: '',
+      loginUserPsw: '',
       queryRequstMyUserInfo: '',
       queryAllUsersInfos: {},
       queryMyInfos: {}
@@ -75,7 +90,7 @@ export default {
       let data = {}
       let self = this
       fetch.httpRequestPost('http://localhost:3000/api/users/users0002', data, function(datas) {
-        if(datas&&datas.data&&datas.data.body){
+        if (datas && datas.data && datas.data.body) {
           self.queryAllUsersInfos = datas.data.body.datas
         }
       })
@@ -84,14 +99,14 @@ export default {
       let reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
       let data = {}
       let self = this
-      if(reg.test(_parma)){
-        data.email= _parma
-      }else{
-        data.name= _parma
+      if (reg.test(_parma)) {
+        data.email = _parma
+      } else {
+        data.name = _parma
       }
-      
+
       fetch.httpRequestPost('http://localhost:3000/api/users/users0003', data, function(datas) {
-        if(datas&&datas.data&&datas.data.body){
+        if (datas && datas.data && datas.data.body) {
           self.queryMyInfos = datas.data.body.datas
         }
       })
@@ -100,13 +115,27 @@ export default {
       let reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
       let data = {}
       let self = this
-      if(reg.test(_str)){
-        data.email= _str
-      }else{
-        data.name= _str
+      if (reg.test(_str)) {
+        data.email = _str
+      } else {
+        data.name = _str
       }
       fetch.httpRequestPost('http://localhost:3000/api/users/users0004', data, function(datas) {
-        if(datas&&datas.data&&datas.data.body){
+        if (datas && datas.data && datas.data.body) {
+          self.queryAllUsersInfos = datas.data.body.datas
+        }
+      })
+    },
+    loginHandler(_name, _password) {
+      let md5 = crypto.createHash('md5');
+      _password = md5.update(_password).digest('hex');
+      let self = this
+      let data = {
+        name: _name,
+        password: _password
+      }
+      fetch.httpRequestPost('http://localhost:3000/api/users/users0005', data, function(datas) {
+        if (datas && datas.data && datas.data.body) {
           self.queryAllUsersInfos = datas.data.body.datas
         }
       })
@@ -129,10 +158,18 @@ h2 {
 label {
   display: block;
 }
-.myInfo{
-  margin-bottom: 10px;
-  border:1px solid $black;
+
+.loginUserPswLabel,
+.loginUserNameLabel {
+  width: 100px;
+  display: inline-block;
 }
+
+.myInfo {
+  margin-bottom: 10px;
+  border: 1px solid $black;
+}
+
 section {
   padding: 30px;
   border: 1px solid $black;
