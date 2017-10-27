@@ -82,14 +82,14 @@ export default {
         password: _password,
         email: _email
       }
-      fetch.httpRequestPost('http://120.25.197.246:3000/api/users/users0001', data, function(datas) {
+      fetch.httpRequestPost('http://localhost:3000/api/users/users0001', data, function(datas) {
         console.log(datas)
       })
     },
     queryAllUsersHandler() {
       let data = {}
       let self = this
-      fetch.httpRequestPost('http://120.25.197.246:3000/api/users/users0002', data, function(datas) {
+      fetch.httpRequestPost('http://localhost:3000/api/users/users0002', data, function(datas) {
         if (datas && datas.data && datas.data.body) {
           self.queryAllUsersInfos = datas.data.body.datas
         }
@@ -104,8 +104,7 @@ export default {
       } else {
         data.name = _parma
       }
-
-      fetch.httpRequestPost('http://120.25.197.246:3000/api/users/users0003', data, function(datas) {
+      fetch.httpRequestPost('http://localhost:3000/api/users/users0003', data, function(datas) {
         if (datas && datas.data && datas.data.body) {
           self.queryMyInfos = datas.data.body.datas
         }
@@ -120,7 +119,7 @@ export default {
       } else {
         data.name = _str
       }
-      fetch.httpRequestPost('http://120.25.197.246:3000/api/users/users0004', data, function(datas) {
+      fetch.httpRequestPost('http://localhost:3000/api/users/users0004', data, function(datas) {
         if (datas && datas.data && datas.data.body) {
           self.queryAllUsersInfos = datas.data.body.datas
         }
@@ -134,7 +133,7 @@ export default {
         name: _name,
         password: _password
       }
-      fetch.httpRequestPost('http://120.25.197.246:3000/api/users/users0005', data, function(datas) {
+      fetch.httpRequestPost('http://localhost:3000/api/users/users0005', data, function(datas) {
         if (datas && datas.data && datas.data.body) {
           self.queryAllUsersInfos = datas.data.body.datas
         }
