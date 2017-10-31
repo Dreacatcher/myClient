@@ -2,7 +2,7 @@
 * @Author: lcm
 * @Date:   2017-05-27 14:36:08
  * @Last Modified by: lucm
- * @Last Modified time: 2017-10-30 16:19:16
+ * @Last Modified time: 2017-10-31 15:49:58
 */
 import axios from 'axios'
 var Base64 = require('js-base64').Base64;
@@ -50,9 +50,6 @@ class Fetch {
     // POST
     let _data = this.dataEncode(data)
     let _requestParam = this.packageParamBase(_data)
-    console.log('axios.defaults.headers.post')
-    console.log(axios.defaults.headers.post)
-
     axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'
     axios
       .post(url, _requestParam)
